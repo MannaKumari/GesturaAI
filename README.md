@@ -77,32 +77,6 @@ GesturaAI/
 │
 └── .gitignore
 
-⚙ Installation & Setup
-1️⃣ Clone the repository
-git clone https://github.com/your-username/GesturaAI.git
-cd GesturaAI
-
-2️⃣ Create virtual environment
-python -m venv venv38
-
-
-Activate it:
-
-venv38\Scripts\activate
-
-
-
-
-3️⃣ Install dependencies
-pip install -r requirements.txt
-
-4️⃣ Run the application
-python app.py
-
-
-Open your browser and go to:
-
-http://127.0.0.1:5000/
 
 🎯 Use Cases
 
@@ -119,11 +93,14 @@ Computer vision learning project
 ### 🏠 Dashboard
 ![Dashboard](screenshots/dashboard.png)
 
-### ✋ Gesture Detection
-![Gesture Detection](screenshots/perform.png)
+### ✋ Perform Task using Gesture Detection
+![perform task](screenshots/perform.png)
 
 ### 🤖 Chatbot Interface
 ![Chatbot](screenshots/chatbot.png)
+
+### Emotion detection
+![emotion](screenshots/emotion.png)
 
 
 👩‍💻 Author
