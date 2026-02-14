@@ -114,12 +114,17 @@ Accessibility support systems
 
 Computer vision learning project
 
-📸 Screenshots
+## 📸 Project Screenshots
 
-(Add your project screenshots here)
+### 🏠 Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-![Dashboard](images/dashboard.png)
-![Gesture Detection](images/gesture.png)
+### ✋ Gesture Detection
+![Gesture Detection](screenshots/perform.png)
+
+### 🤖 Chatbot Interface
+![Chatbot](screenshots/chatbot.png)
+
 
 👩‍💻 Author
 
