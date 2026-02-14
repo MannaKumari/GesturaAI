@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Face Emotion</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <style>
+    :root{
+      --purple:#4e4a67;
+      --bg:#eef4f6;
+      --card:#ffffff;
+      --accent:#3a2f66;
+      --muted:#7b7b7b;
+    }
+    body{margin:0;font-family:Inter,Arial;background:var(--bg);}
+    .topbar{background:var(--purple);color:#fff;padding:20px 36px;}
+    .container{max-width:900px;margin:36px auto;text-align:center}
+    .hero{font-size:36px;font-weight:800;margin:6px 0;color:#111}
+    .sub{color:var(--muted);margin-bottom:36px;font-size:16px}
+    .card{background:#fff;padding:22px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.06)}
+    .btn{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer}
+    .emotion-box{background:#f8fafb;border:1px dashed #e6eef0;padding:16px;border-radius:10px;margin-top:12px;min-height:56px;display:flex;align-items:center;justify-content:center;color:#333}
+    .back-link{margin-top:26px;display:block;font-weight:700;color:var(--accent);text-decoration:none}
+  </style>
+</head>
+
+<body>
+  <header class="topbar"><div style="font-weight:600">Face Emotion Recognition</div></header>
+
+  <main class="container">
+    <h1 class="hero">Detect Face Emotion</h1>
+    <p class="sub">Show your face to identify your emotion.</p>
+
+    <div class="card">
+      <button class="btn" onclick="setTask('emotion','')">Start Emotion Detection</button>
+      <h3 style="margin-top:18px">Last detected emotion</h3>
+
+      <div class="emotion-box" id="last">{{ last or "—" }}</div>
+    </div>
+
+    <a class="back-link" href="/">← Back to Dashboard</a>
+  </main>
+
+<script>
+async function setTask(task, option){
+  await fetch('/set_task', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({task:task, option:option})
+  });
+  alert("Task set. Run detector and show your face.");
+}
+
+const evt = new EventSource("/stream");
+evt.onmessage = function(e){
+  if(e.data === "emotion"){
+    location.reload();
+  }
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Chatbot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{
+      --purple:#4e4a67;
+      --bg:#eef4f6;
+      --card:#ffffff;
+      --accent:#3a2f66;
+      --muted:#7b7b7b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif;background:var(--bg);color:#222}
+    .topbar{background:var(--purple);color:#fff;padding:20px 36px;box-shadow:0 3px 6px rgba(0,0,0,0.12)}
+    .container{max-width:1100px;margin:36px auto;padding:0 24px;text-align:center}
+    .hero{font-size:36px;margin:6px 0 8px;color:#111;font-weight:800}
+    .sub{color:var(--muted);margin-bottom:36px;font-size:16px}
+
+    .chatcard{max-width:880px;margin:18px auto;background:var(--card);padding:22px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.06);text-align:left}
+    .history{min-height:130px}
+    .msg-user{background:#f3f7fb;padding:14px;border-radius:10px;margin-bottom:10px;color:#222}
+    .msg-bot{background:#eef4f8;padding:14px;border-radius:10px;margin-bottom:10px;color:#222}
+
+    .controls{display:flex;gap:18px;justify-content:center;margin-top:22px}
+    .btn{background:var(--accent);color:#fff;border:none;padding:12px 22px;border-radius:12px;cursor:pointer;font-weight:700;box-shadow:0 10px 20px rgba(58,47,102,0.14)}
+    .btn.ghost{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+
+    @media (max-width:880px){
+      .hero{font-size:28px}
+      .chatcard{padding:16px;width:92%}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div style="font-weight:600;color:#fff">Gesture Powered Chatbot</div>
+  </header>
+
+  <main class="container">
+    <h1 class="hero">Gesture Powered Chatbot</h1>
+    <p class="sub">Make expressions or gestures — chatbot replies automatically.</p>
+
+    <div class="chatcard">
+      <div class="history" id="history">
+        {% if chat_history %}
+          {% for u,b in chat_history %}
+            <div class="msg-user"><strong>You:</strong> {{ u }}</div>
+            <div class="msg-bot"><strong>Bot:</strong> {{ b }}</div>
+          {% endfor %}
+        {% else %}
+          <div style="color:var(--muted);padding:18px">No messages yet. Click <em>Start Chatbot</em> and show a mapped gesture.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" onclick="setTask('chatbot','')">Start Chatbot</button>
+      <a href="/" style="text-decoration:none"><button class="btn ghost">Back to Dashboard</button></a>
+    </div>
+  </main>
+
+<script>
+async function setTask(task, option){
+  try{
+    await fetch('/set_task', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({task:task, option:option})
+    });
+    alert("Task set. Run detector and show gesture.");
+  }catch(e){
+    alert("Failed to set task: "+e);
+  }
+}
+
+// SSE subscription - reload when server emits chat updates
+const evt = new EventSource("/stream");
+evt.onmessage = function(e){
+  if(e.data === "chat"){
+    // reload to show new chat messages
+    location.reload();
+  }
+};
+</script>
+</body>
+</html>
